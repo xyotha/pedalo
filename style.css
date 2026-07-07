@@ -242,3 +242,34 @@ button {
   color: #cbd5e1;
   opacity: 0.8;
 }
+.warning-banner {
+    background: #dc2626;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    animation: clignote 1s infinite;
+}
+
+.hidden {
+    display: none;
+}
+
+.warning-controls {
+    margin-bottom: 15px;
+}
+
+.warning-controls button {
+    background: #f59e0b;
+    color: black;
+    font-weight: bold;
+}
+
+@keyframes clignote {
+    50% {
+        opacity: .4;
+    }
+}
