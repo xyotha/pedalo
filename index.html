@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Pédalos</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Pédalos</h1>
+      <p id="syncStatus">Synchronisation...</p>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="stat">⚪ <span id="availableCount">0</span><small>dispo</small></div>
+    <div class="stat">🔴 <span id="lateCount">0</span><small>retard</small></div>
+    <div class="stat">🟢 <span id="runningCount">0</span><small>navigation</small></div>
+    <div class="stat">⚫ <span id="brokenCount">0</span><small>cassé</small></div>
+    <div class="stat stat-wide">🚤 <span id="dailyRentalsCount">0</span><small>locations aujourd'hui</small></div>
+  </section>
+
+  <section class="search-zone">
+    <input id="searchInput" type="number" inputmode="numeric" placeholder="Rechercher un pédalo..." />
+  </section>
+
+  <main id="pedalosGrid" class="grid"></main>
+
+  <footer class="footer">🕊️ À la mémoire de notre chère collègue Dinah 🕊️</footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
