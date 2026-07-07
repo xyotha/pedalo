@@ -5,8 +5,7 @@ import {
   onValue,
   set,
   update,
-  onDisconnect,
-  serverTimestamp
+  get
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -29,6 +28,10 @@ const db = getDatabase(app);
 const grid = document.getElementById("pedalosGrid");
 const syncStatus = document.getElementById("syncStatus");
 
+const warningRef = ref(db, "warning");
+const warningBanner = document.getElementById("warningBanner");
+const warningButton = document.getElementById("warningButton");
+
 const counts = {
   available: document.getElementById("availableCount"),
   running: document.getElementById("runningCount"),
@@ -41,6 +44,7 @@ let renderTimer = null;
 
 function buildInitialPedalos() {
   const data = {};
+
   for (let i = 1; i <= PEDALO_COUNT; i++) {
     data[i] = {
       number: i,
@@ -49,11 +53,13 @@ function buildInitialPedalos() {
       startTime: null
     };
   }
+
   return data;
 }
 
 function initDatabaseIfEmpty() {
   const pedalosRef = ref(db, "pedalos");
+
   onValue(pedalosRef, (snapshot) => {
     if (!snapshot.exists()) {
       set(pedalosRef, buildInitialPedalos());
@@ -65,11 +71,13 @@ function formatDuration(totalSeconds) {
   const abs = Math.max(0, Math.floor(Math.abs(totalSeconds)));
   const minutes = Math.floor(abs / 60);
   const seconds = abs % 60;
+
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 function formatClock(timestamp) {
   if (!timestamp) return "";
+
   return new Date(timestamp).toLocaleTimeString("fr-FR", {
     hour: "2-digit",
     minute: "2-digit"
@@ -82,6 +90,7 @@ function getComputedStatus(pedalo) {
   }
 
   const elapsed = Math.floor((Date.now() - pedalo.startTime) / 1000);
+
   return elapsed >= RENTAL_DURATION_SECONDS ? "late" : "running";
 }
 
@@ -109,6 +118,7 @@ function statusLabel(status) {
     late: "En retard",
     broken: "Cassé"
   };
+
   return labels[status] || status;
 }
 
@@ -161,11 +171,15 @@ function render() {
         <button class="primary" data-action="start" data-id="${pedalo.number}">DÉPART</button>
         <button class="secondary" data-action="break" data-id="${pedalo.number}">CASSER</button>
       `;
-    } else if (status === "running" || status === "late") {
+    }
+
+    if (status === "running" || status === "late") {
       actions = `
         <button class="primary" data-action="finish" data-id="${pedalo.number}">ARRIVÉE</button>
       `;
-    } else if (status === "broken") {
+    }
+
+    if (status === "broken") {
       actions = `
         <button class="primary" data-action="repair" data-id="${pedalo.number}">RÉPARER</button>
       `;
@@ -207,6 +221,8 @@ async function finishPedalo(id) {
     status: "available",
     startTime: null
   });
+
+  await set(warningRef, false);
 }
 
 async function breakPedalo(id) {
@@ -245,6 +261,21 @@ grid.addEventListener("click", async (event) => {
   }
 });
 
+onValue(warningRef, (snapshot) => {
+  const warning = snapshot.val() || false;
+
+  warningBanner.classList.toggle("hidden", !warning);
+
+  warningButton.textContent = warning
+    ? "✅ Désactiver l'alerte baignade"
+    : "⚠️ Activer l'alerte baignade";
+});
+
+warningButton.addEventListener("click", async () => {
+  const snapshot = await get(warningRef);
+  await set(warningRef, !snapshot.val());
+});
+
 function listenRealtime() {
   const pedalosRef = ref(db, "pedalos");
 
@@ -281,8 +312,10 @@ window.addEventListener("beforeinstallprompt", (event) => {
 
 installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) return;
+
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
+
   deferredPrompt = null;
   installBtn.classList.add("hidden");
 });
