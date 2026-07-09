@@ -40,45 +40,42 @@ let pedalos = {};
 let renderTimer = null;
 
 function buildInitialPedalos() {
+  const colors = {
+    1: "gris",
+    2: "jaune",
+    3: "blanc",
+    4: "blanc",
+    5: "blanc",
+    6: "blanc",
+    7: "bleu",
+    8: "bleu",
+    9: "blanc",
+    10: "vert",
+    11: "blanc",
+    12: "blanc",
+    13: "vert",
+    14: "vert",
+    15: "blanc",
+    16: "gris",
+    17: "vert",
+    18: "vert",
+    19: "vert"
+  };
 
-    const colors = {
-        1: "gris",
-        2: "jaune",
-        3: "blanc",
-        4: "blanc",
-        5: "blanc",
-        6: "blanc",
-        7: "bleu",
-        8: "bleu",
-        9: "blanc",
-        10: "vert",
-        11: "blanc",
-        12: "blanc",
-        13: "vert",
-        14: "vert",
-        15: "blanc",
-        16: "gris",
-        17: "vert",
-        18: "vert",
-        19: "vert"
+  const data = {};
+
+  for (let i = 1; i <= PEDALO_COUNT; i++) {
+    data[i] = {
+      number: i,
+      color: colors[i],
+      status: "available",
+      startTime: null,
+      endTime: null,
+      warning: false
     };
+  }
 
-    const data = {};
-
-    for (let i = 1; i <= PEDALO_COUNT; i++) {
-
-        data[i] = {
-            number: i,
-            color: colors[i],
-            status: "available",
-            startTime: null,
-            endTime: null,
-            warning: false
-        };
-
-    }
-
-    return data;
+  return data;
 }
 function initDatabaseIfEmpty() {
   const pedalosRef = ref(db, "pedalos");
