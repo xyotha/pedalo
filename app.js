@@ -160,12 +160,12 @@ function getTimerText(pedalo, status) {
 }
 
 function statusLabel(status) {
-  return {
+  return ({
     available: "",
     running: "En navigation",
     late: "En retard",
     broken: "Hors service"
-  }[status] || status;
+  }[status] ?? status);
 }
 
 function scheduleText(pedalo, status) {
