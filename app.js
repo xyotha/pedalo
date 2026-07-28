@@ -152,7 +152,7 @@ function formatClock(timestamp) {
 }
 
 function getTimerText(pedalo, status) {
-  if (status === "available") return "Prêt";
+  if (status === "available") return "Disponible";
   if (status === "broken") return "—";
   if (!pedalo.endTime) return "—";
   const difference = pedalo.endTime - Date.now();
@@ -161,7 +161,7 @@ function getTimerText(pedalo, status) {
 
 function statusLabel(status) {
   return {
-    available: "Disponible",
+    available: "",
     running: "En navigation",
     late: "En retard",
     broken: "Hors service"
@@ -169,7 +169,7 @@ function statusLabel(status) {
 }
 
 function scheduleText(pedalo, status) {
-  if (status === "available") return "Disponible immédiatement";
+  if (status === "available") return "";
   if (status === "broken") return "En attente de réparation";
   return `Départ ${formatClock(pedalo.startTime)} · Retour ${formatClock(pedalo.endTime)}`;
 }
