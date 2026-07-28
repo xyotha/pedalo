@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b2b">
+  <meta name="description" content="Tableau de gestion des pédalos">
+  <title>Pédalos — Tableau de bord</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Base nautique</p>
+        <h1>Gestion des pédalos</h1>
+      </div>
+      <div class="sync-pill" id="syncStatus" aria-live="polite">
+        <span class="sync-dot"></span>
+        <span>Connexion…</span>
+      </div>
+    </header>
+
+    <section class="overview" aria-label="Résumé de l'activité">
+      <div class="stat stat-available">
+        <span class="stat-value" id="availableCount">0</span>
+        <span class="stat-label">Disponibles</span>
+      </div>
+      <div class="stat stat-running">
+        <span class="stat-value" id="runningCount">0</span>
+        <span class="stat-label">En navigation</span>
+      </div>
+      <div class="stat stat-late">
+        <span class="stat-value" id="lateCount">0</span>
+        <span class="stat-label">En retard</span>
+      </div>
+      <div class="stat stat-broken">
+        <span class="stat-value" id="brokenCount">0</span>
+        <span class="stat-label">Hors service</span>
+      </div>
+      <div class="stat stat-rentals">
+        <span class="stat-value" id="dailyRentalsCount">0</span>
+        <span class="stat-label">Locations du jour</span>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <label class="search-field">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <span class="sr-only">Rechercher un pédalo</span>
+        <input id="searchInput" type="search" inputmode="numeric" placeholder="Rechercher un numéro">
+      </label>
+      <button class="filter-button" id="filterButton" type="button" aria-expanded="false">
+        <span>Tous les pédalos</span>
+        <span aria-hidden="true">⌄</span>
+      </button>
+      <div class="filter-menu hidden" id="filterMenu">
+        <button type="button" data-filter="all">Tous les pédalos</button>
+        <button type="button" data-filter="available">Disponibles</button>
+        <button type="button" data-filter="running">En navigation</button>
+        <button type="button" data-filter="late">En retard</button>
+        <button type="button" data-filter="broken">Hors service</button>
+      </div>
+    </section>
+
+    <main>
+      <div class="demo-banner hidden" id="demoBanner">
+        Mode démonstration — aucune donnée réelle n’est modifiée.
+      </div>
+      <div class="grid" id="pedalosGrid" aria-live="polite"></div>
+      <div class="empty-state hidden" id="emptyState">
+        Aucun pédalo ne correspond à votre recherche.
+      </div>
+    </main>
+
+    <footer>
+      <span>À la mémoire de notre chère collègue Dinah</span>
+    </footer>
+  </div>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <div class="dialog-icon">!</div>
+      <h2 id="dialogTitle">Confirmer l’action</h2>
+      <p id="dialogText"></p>
+      <div class="dialog-actions">
+        <button class="button ghost" value="cancel">Annuler</button>
+        <button class="button danger" value="confirm">Confirmer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

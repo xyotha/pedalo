@@ -1,0 +1,10 @@
+{
+  "name": "Gestion des pédalos",
+  "short_name": "Pédalos",
+  "description": "Tableau de gestion des départs et arrivées des pédalos.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef4f6",
+  "theme_color": "#071b2b",
+  "lang": "fr"
+}
