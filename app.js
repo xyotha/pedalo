@@ -39,7 +39,7 @@ const BOAT_COLORS = {
   12: "blanc",
   13: "vert",
   14: "vert",
-  15: "blanc",
+  15: "jaune",
   16: "gris",
   17: "vert",
   18: "vert",
